@@ -1,0 +1,1 @@
+import{Z as n}from"./index-EqSnbxMq.js";function o(t){return n({url:"/api/inventory/list",method:"get",params:t})}function e(t){return n({url:"/api/inventory/in",method:"post",data:t})}function i(t){return n({url:"/api/inventory/out",method:"post",data:t})}function s(t){return n({url:"/api/inventory/records",method:"get",params:t})}export{i as a,s as b,o as l,e as s};

@@ -1,0 +1,55 @@
+# 电商管理系统配置
+server:
+  port: 8088
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ecommerce_admin?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# MyBatis-Plus配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# JWT配置 (密钥需要至少32字节)
+jwt:
+  secret: ecommerce-admin-secret-key-2024-very-long-and-secure
+  expiration: 86400000
+
+# Knife4j配置 (OpenAPI 3.0版本)
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+  packages-to-scan: com.demo.controller
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+
+# 文件上传配置
+file:
+  upload:
+    path: D:/A_MyProject/ecommerce-admin/backend-ecommerce/upload/
+    url: /upload/
+
+# 日志配置
+logging:
+  level:
+    com.demo: debug
