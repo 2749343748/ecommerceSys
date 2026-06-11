@@ -6,6 +6,7 @@ import com.demo.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,9 +29,18 @@ public class CartController {
         return R.ok(list);
     }
 
+    /**
+     * 从SecurityContext获取当前登录用户ID
+     */
+    private Long getCurrentUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return Long.valueOf(principal.toString());
+    }
+
     @Operation(summary = "添加商品到购物车")
     @PostMapping
-    public R<?> add(@RequestParam Long userId, @RequestParam Long productId, @RequestParam(defaultValue = "1") Integer quantity) {
+    public R<?> add(@RequestParam Long productId, @RequestParam(defaultValue = "1") Integer quantity) {
+        Long userId = getCurrentUserId();
         cartService.addToCart(userId, productId, quantity);
         return R.ok();
     }
@@ -51,7 +61,8 @@ public class CartController {
 
     @Operation(summary = "全选/取消全选")
     @PutMapping("/checkAll")
-    public R<?> checkAll(@RequestParam Long userId, @RequestParam Integer checked) {
+    public R<?> checkAll(@RequestParam Integer checked) {
+        Long userId = getCurrentUserId();
         cartService.checkAll(userId, checked);
         return R.ok();
     }

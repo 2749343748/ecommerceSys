@@ -48,7 +48,8 @@ public class SecurityConfig {
                 // 静态资源和上传接口不需要认证
                 .requestMatchers("/upload/**", "/api/upload/**").permitAll()
                 // 商城公开接口不需要认证
-                .requestMatchers("/api/banner/**", "/api/category/tree", "/api/cart/**").permitAll()
+                .requestMatchers("/api/banner/**", "/api/category/tree").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/cart/**").permitAll()
                 .requestMatchers("/api/product/list", "/api/product/{id}").permitAll()
                 .requestMatchers("/api/brand/list").permitAll()
                 .requestMatchers("/api/review/list").permitAll()

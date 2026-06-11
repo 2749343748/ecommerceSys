@@ -155,7 +155,6 @@ const getStatusText = (status) => {
 const loadOrders = async () => {
   try {
     const params = {
-      userId: userStore.userInfo?.id,
       pageNum: pageNum.value,
       pageSize: pageSize.value
     }

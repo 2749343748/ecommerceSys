@@ -198,7 +198,6 @@ const handleSubmit = async () => {
   submitting.value = true
   try {
     const orderData = {
-      userId: userStore.userInfo?.id,
       addressId: selectedAddress.value.id,
       items: cartStore.checkedList.map(item => ({
         productId: item.productId,

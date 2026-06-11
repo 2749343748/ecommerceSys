@@ -1,0 +1,1 @@
+import{s as e}from"./index-R5mEsCZx.js";function o(t){return e({url:"/api/product/list",method:"get",params:t})}function u(t){return e({url:`/api/product/${t}`,method:"get"})}function a(){return e({url:"/api/category/tree",method:"get"})}export{o as a,u as b,a as g};

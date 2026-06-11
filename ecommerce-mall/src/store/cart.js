@@ -57,7 +57,7 @@ export const useCartStore = defineStore('cart', () => {
       return false
     }
     try {
-      await addToCart(userStore.userInfo?.id, productId, quantity)
+      await addToCart(productId, quantity)
       await fetchCartList()
       return true
     } catch (error) {
@@ -100,7 +100,7 @@ export const useCartStore = defineStore('cart', () => {
   async function toggleCheckAll(checked) {
     const userStore = useUserStore()
     try {
-      await checkAllCart(userStore.userInfo?.id, checked)
+      await checkAllCart(checked)
       await fetchCartList()
     } catch (error) {
       console.error('全选操作失败', error)

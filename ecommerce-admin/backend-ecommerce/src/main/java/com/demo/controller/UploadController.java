@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.demo.common.R;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,7 @@ import java.util.UUID;
 /**
  * 文件上传控制器
  */
+@Slf4j
 @Tag(name = "文件上传")
 @RestController
 @RequestMapping("/api/upload")
@@ -67,7 +69,7 @@ public class UploadController {
             result.put("name", originalFilename);
             return R.ok(result);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("文件上传失败：{}", e.getMessage(), e);
             return R.fail("文件上传失败：" + e.getMessage());
         }
     }

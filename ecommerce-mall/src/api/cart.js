@@ -9,12 +9,12 @@ export function getCartList(userId) {
   })
 }
 
-// 添加到购物车
-export function addToCart(userId, productId, quantity) {
+// 添加到购物车（userId从JWT token获取）
+export function addToCart(productId, quantity) {
   return request({
     url: '/api/cart',
     method: 'post',
-    params: { userId, productId, quantity }
+    params: { productId, quantity }
   })
 }
 
@@ -36,12 +36,12 @@ export function updateCartChecked(id, checked) {
   })
 }
 
-// 全选/取消全选
-export function checkAllCart(userId, checked) {
+// 全选/取消全选（userId从JWT token获取）
+export function checkAllCart(checked) {
   return request({
     url: '/api/cart/checkAll',
     method: 'put',
-    params: { userId, checked }
+    params: { checked }
   })
 }
 

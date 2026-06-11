@@ -16,6 +16,8 @@ import com.demo.mapper.OrderItemMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -48,6 +50,14 @@ public class OrderController {
 
     @Autowired
     private OrderItemMapper orderItemMapper;
+
+    /**
+     * 从SecurityContext获取当前登录用户ID
+     */
+    private Long getCurrentUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return Long.valueOf(principal.toString());
+    }
 
     @Operation(summary = "分页查询订单列表")
     @GetMapping("/list")
@@ -113,10 +123,10 @@ public class OrderController {
 
     @Operation(summary = "查询用户订单列表")
     @GetMapping("/user/list")
-    public R<IPage<Order>> getUserOrders(@RequestParam Long userId,
-                                          @RequestParam(defaultValue = "1") Integer pageNum,
+    public R<IPage<Order>> getUserOrders(@RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "10") Integer pageSize,
                                           @RequestParam(required = false) Integer status) {
+        Long userId = getCurrentUserId();
         Page<Order> page = new Page<>(pageNum, pageSize);
         com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<Order> wrapper =
                 new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<>();
@@ -141,8 +151,9 @@ public class OrderController {
 
     @Operation(summary = "创建订单")
     @PostMapping("/create")
+    @Transactional(rollbackFor = Exception.class)
     public R<?> createOrder(@RequestBody Map<String, Object> params) {
-        Long userId = Long.valueOf(params.get("userId").toString());
+        Long userId = getCurrentUserId();
         Long addressId = Long.valueOf(params.get("addressId").toString());
         String remark = params.get("remark") != null ? params.get("remark").toString() : "";
 
